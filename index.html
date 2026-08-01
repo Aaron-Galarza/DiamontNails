@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Diamont Nails</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#E91E8C">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root {
+  --rose:    #E91E8C;
+  --rose-l:  #FCE4F3;
+  --rose-ll: #FEF6FB;
+  --rose-d:  #A01660;
+  --bg:      #FDF5F9;
+  --card:    #FFFFFF;
+  --t1:      #1A1117;
+  --t2:      #5A4050;
+  --t3:      #A888A0;
+  --bdr:     #EDD5E5;
+  --bdr2:    #DDB8CE;
+  --green:   #1E8A5A;
+  --green-l: #E4F5EE;
+  --r:       14px;
+  --rs:      9px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--t1);overscroll-behavior:none}
+body{display:flex;flex-direction:column;height:100dvh}
+
+
+
+/* TOP */
+.topbar{background:var(--card);border-bottom:1px solid var(--bdr);padding:14px 16px 11px;flex-shrink:0}
+.topbar-inner{display:flex;align-items:center;gap:10px}
+.topbar-gem{font-size:22px;line-height:1}
+.topbar-title{font-size:18px;font-weight:800;color:var(--rose);letter-spacing:-.3px}
+.topbar-sub{font-size:10px;color:var(--t3);margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
+
+/* TABS */
+.tabs{display:flex;background:var(--card);border-bottom:1px solid var(--bdr);flex-shrink:0}
+.tab{flex:1;padding:10px 4px 8px;text-align:center;font-size:11px;font-weight:700;color:var(--t3);border:none;background:none;cursor:pointer;border-bottom:2.5px solid transparent;letter-spacing:.4px;text-transform:uppercase;transition:color .12s}
+.tab.active{color:var(--rose);border-bottom-color:var(--rose)}
+.tab-icon{display:block;margin:0 auto 3px;width:17px;height:17px;stroke-width:1.8;fill:none;stroke:currentColor}
+
+/* SCROLL */
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px 90px}
+.page{display:none}.page.active{display:block}
+
+/* SECTION LABEL */
+.slbl{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin:18px 0 8px}
+.slbl:first-child{margin-top:0}
+
+/* CARD */
+.card{background:var(--card);border-radius:var(--r);border:1px solid var(--bdr);margin-bottom:10px;overflow:hidden;position:relative}
+.card-body{padding:14px 16px}
+
+.card::before{display:none}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.metric{background:var(--card);border:1px solid var(--bdr);border-radius:var(--rs);padding:10px 8px;text-align:center;position:relative;overflow:hidden}
+.metric::before{display:none}
+.metric-val{font-size:17px;font-weight:800;color:var(--rose-d);line-height:1.1}
+.metric-val.sm{font-size:13px}
+.metric-lbl{font-size:10px;color:var(--t3);margin-top:3px;line-height:1.3}
+.metric-note{font-size:9px;color:var(--t3);opacity:.7;margin-top:2px;line-height:1.3}
+
+/* INSUMOS TABLE */
+.ins-hdr{display:grid;grid-template-columns:1fr 76px 66px 68px 36px;gap:4px;padding:0 0 8px;border-bottom:1.5px solid var(--bdr)}
+.ins-hdr span{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.4px;text-transform:uppercase}
+.ins-row{display:grid;grid-template-columns:1fr 76px 66px 68px 36px;gap:4px;align-items:center;padding:9px 0;border-bottom:1px solid var(--bdr)}
+.ins-row:last-child{border-bottom:none}
+.ins-name{font-size:13px;font-weight:500;line-height:1.3;color:var(--t1)}
+.ins-input{width:100%;padding:6px 6px;font-size:13px;border:1px solid var(--bdr);border-radius:6px;background:var(--bg);color:var(--t1);text-align:right;-webkit-appearance:none;font-family:inherit}
+.ins-input:focus{outline:none;border-color:var(--rose)}
+.cxu{font-size:13px;font-weight:700;color:var(--rose);text-align:right}
+
+/* SEARCH */
+.search-wrap{position:relative;margin-bottom:12px}
+.search-input{width:100%;padding:10px 12px 10px 34px;font-size:14px;border:1px solid var(--bdr);border-radius:var(--rs);background:var(--card);color:var(--t1);-webkit-appearance:none;font-family:inherit}
+.search-input:focus{outline:none;border-color:var(--rose)}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none;width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 18px;font-size:14px;font-weight:700;border-radius:var(--rs);border:none;cursor:pointer;font-family:inherit;-webkit-appearance:none;transition:opacity .1s}
+.btn:active{opacity:.7;transform:scale(.98)}
+.btn-primary{background:var(--rose);color:#fff;width:100%;margin-top:6px;letter-spacing:.1px}
+.btn-outline{background:none;border:1px solid var(--bdr2);color:var(--t2);width:100%;margin-top:8px}
+.btn-prep-edit{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;padding:12px 18px;font-size:13px;font-weight:700;border-radius:var(--rs);border:1.5px solid var(--rose-l);background:var(--rose-ll);color:var(--rose-d);cursor:pointer;font-family:inherit;letter-spacing:.1px;-webkit-appearance:none}
+.btn-prep-edit:active{opacity:.7}
+.btn-sm{padding:7px 13px;font-size:12px;font-weight:700;border-radius:7px;border:1.5px solid var(--rose-l);background:var(--rose-ll);color:var(--rose-d);cursor:pointer;font-family:inherit;-webkit-appearance:none;letter-spacing:.1px}
+.btn-sm:active{opacity:.6}
+.btn-icon{width:30px;height:30px;padding:0;border-radius:7px;border:1px solid var(--bdr);background:var(--card);color:var(--t3);cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-appearance:none}
+.btn-icon:active{opacity:.6}
+.btn-icon svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.btn-icon.del{border-color:#EECFCF;color:#C04444;background:#FDF5F5}
+.btn-icon.edit{border-color:var(--rose-l);color:var(--rose)}
+
+/* FORMS */
+.form-group{margin-bottom:12px}
+.form-label{font-size:12px;font-weight:600;color:var(--t2);margin-bottom:5px;display:block}
+.form-input{width:100%;padding:11px 12px;font-size:15px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--card);color:var(--t1);-webkit-appearance:none;font-family:inherit}
+.form-input:focus{outline:none;border-color:var(--rose)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(28,18,23,.4);z-index:200;display:none;align-items:flex-end}
+.modal-bg.open{display:flex}
+.modal{background:var(--card);border-radius:var(--r) var(--r) 0 0;padding:20px 16px 36px;width:100%;max-height:92dvh;overflow-y:auto}
+.modal-drag{width:36px;height:4px;background:var(--bdr2);border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:16px;font-weight:800;color:var(--t1);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.modal-close{background:none;border:none;font-size:20px;color:var(--t3);cursor:pointer;padding:2px 6px;-webkit-appearance:none;line-height:1}
+
+/* ING LIST in service form */
+.ing-added{background:var(--bg);border-radius:var(--rs);padding:4px 0;margin:8px 0}
+.ing-added-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--bdr)}
+.ing-added-row:last-child{border-bottom:none}
+.ing-added-name{flex:1;font-size:13px;color:var(--t1);font-weight:500}
+.ing-added-meta{font-size:12px;color:var(--t3);min-width:44px;text-align:right}
+.ing-qty-input{width:50px;padding:5px 6px;font-size:13px;border:1px solid var(--bdr);border-radius:6px;text-align:center;-webkit-appearance:none;background:var(--card);font-family:inherit}
+.ing-qty-input:focus{outline:none;border-color:var(--rose)}
+
+/* SERVICE CARD */
+.svc-card{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:10px;overflow:hidden;position:relative}
+.svc-card::before{display:none}
+.svc-top{padding:12px 14px 10px;display:flex;justify-content:space-between;align-items:flex-start}
+.svc-name{font-size:15px;font-weight:800;color:var(--t1)}
+.svc-meta{font-size:11px;color:var(--t3);margin-top:3px}
+.svc-actions{display:flex;gap:6px}
+.svc-ings{padding:0 14px 2px;border-top:1px solid var(--bdr)}
+.svc-ing-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--bdr);font-size:13px}
+.svc-ing-row:last-child{border-bottom:none}
+.svc-ing-row.prep-row{color:var(--rose-d);font-style:italic}
+.svc-prices{display:grid;grid-template-columns:repeat(3,1fr);background:var(--rose-ll);border-top:1px solid var(--rose-l)}
+.svc-price-box{text-align:center;padding:10px 4px;border-right:1px solid var(--rose-l)}
+.svc-price-box:last-child{border-right:none}
+.svc-price-val{font-size:14px;font-weight:700}
+.svc-price-lbl{font-size:9px;color:var(--t3);margin-top:2px;text-transform:uppercase;letter-spacing:.4px}
+.svc-price-note{font-size:9px;color:var(--t3);margin-top:2px;line-height:1.3;opacity:.8}
+
+/* PRECIO FINAL highlight */
+.svc-price-box.final .svc-price-val{font-size:16px;color:var(--rose-d)}
+
+/* SUELDO */
+.big-card{background:var(--rose-ll);border:1.5px solid var(--rose-l);border-radius:var(--r);padding:22px 20px;text-align:center;margin-bottom:14px}
+.big-val{font-size:30px;font-weight:900;color:var(--rose)}
+.big-lbl{font-size:11px;color:var(--rose-d);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;opacity:.8}
+.big-note{font-size:11px;color:var(--t3);margin-top:6px;line-height:1.5}
+
+.svc-need-row{display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--bdr)}
+.svc-need-row:last-child{border-bottom:none}
+.svc-need-name{flex:1;font-size:13px;font-weight:500}
+.svc-need-price{font-size:12px;color:var(--t3);flex:0 0 72px;text-align:center}
+.svc-need-cant{font-size:15px;font-weight:800;color:var(--rose-d);flex:0 0 68px;text-align:right}
+.svc-need-sub{font-size:10px;color:var(--t3);display:block;font-weight:400}
+
+/* PREP DISPLAY */
+.prep-display{background:var(--rose-ll);border:1.5px solid var(--rose-l);border-radius:var(--rs);padding:12px 14px;margin-bottom:10px}
+.prep-display-title{font-size:11px;font-weight:700;color:var(--rose-d);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.prep-ings{display:flex;flex-wrap:wrap;gap:6px}
+.prep-tag{display:inline-flex;align-items:center;gap:4px;background:var(--card);border:1px solid var(--rose-l);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--rose-d);font-weight:500}
+.prep-cost{font-size:12px;color:var(--t3);margin-top:8px}
+.prep-cost span{font-weight:700;color:var(--rose)}
+.prep-note{font-size:11px;color:var(--t3);margin-top:4px;line-height:1.4;font-style:italic}
+
+/* CHECKBOX */
+.check-row{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);margin:12px 0}
+.check-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--rose);flex-shrink:0;margin-top:2px;cursor:pointer}
+.check-label{font-size:14px;color:var(--t1);font-weight:500;cursor:pointer;flex:1}
+.check-label small{display:block;font-size:11px;color:var(--t3);font-weight:400;margin-top:2px}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--bdr);margin:14px 0}
+
+/* TOAST */
+.toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--t1);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;opacity:0;transition:opacity .18s,transform .18s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* FAB */
+.footer{text-align:center;padding:28px 20px 10px;font-size:12px;color:var(--t3);line-height:1.7}
+.footer strong{color:var(--rose-d);font-weight:700}
+.footer .heart{color:var(--rose);font-size:14px}
+.fab{position:fixed;bottom:74px;right:16px;width:52px;height:52px;border-radius:50%;background:var(--rose);color:#fff;font-size:26px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 18px rgba(233,30,140,.32);z-index:50;-webkit-appearance:none;font-weight:300}
+.fab:active{transform:scale(.92)}
+
+/* ING PICKER */
+.ins-pick-list{border:1px solid var(--bdr);border-radius:var(--rs);overflow:hidden;max-height:50dvh;overflow-y:auto}
+.ins-pick-row{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--bdr);cursor:pointer;background:var(--card)}
+.ins-pick-row:last-child{border-bottom:none}
+.ins-pick-row:active,.ins-pick-row.selected{background:var(--rose-ll)}
+.ins-pick-name{font-size:14px;font-weight:500;color:var(--t1)}
+.ins-pick-cost{font-size:12px;color:var(--t3);margin-top:2px}
+.pick-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--bdr2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s}
+.pick-dot.on{background:var(--rose);border-color:var(--rose)}
+.pick-dot.on::after{content:'';display:block;width:6px;height:6px;background:#fff;border-radius:50%}
+
+/* empty */
+.empty{text-align:center;color:var(--t3);padding:32px 0;font-size:14px}
+</style>
+</head>
+<body>
+
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0">
+      <polygon points="13,2 24,9 20,24 6,24 2,9" fill="var(--rose-l)" stroke="var(--rose)" stroke-width="1.5" stroke-linejoin="round"/>
+      <polygon points="13,2 7,9 13,24 19,9" fill="var(--rose)" opacity=".18"/>
+      <polyline points="2,9 13,9 24,9" stroke="var(--rose)" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="7" y1="9" x2="13" y2="2" stroke="var(--rose)" stroke-width="1.5"/>
+      <line x1="19" y1="9" x2="13" y2="2" stroke="var(--rose)" stroke-width="1.5"/>
+    </svg>
+    <div>
+      <div class="topbar-title">Diamont Nails</div>
+      <div class="topbar-sub">Calculadora de costos</div>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('insumos')" id="t-insumos">
+    <svg class="tab-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+    Insumos
+  </button>
+  <button class="tab" onclick="showTab('servicios')" id="t-servicios">
+    <svg class="tab-icon" viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2Z"/><path d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4Z"/></svg>
+    Servicios
+  </button>
+  <button class="tab" onclick="showTab('sueldo')" id="t-sueldo">
+    <svg class="tab-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Sueldo
+  </button>
+</div>
+
+<div class="scroll">
+
+  <!-- INSUMOS -->
+  <div class="page active" id="page-insumos">
+    <div class="metrics" id="ins-metrics"></div>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="ins-search" placeholder="Buscar insumo..." oninput="renderIns()" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <div class="card">
+      <div class="card-body" style="padding:12px 14px">
+        <div class="ins-hdr">
+          <span>Producto</span><span style="text-align:right">Costo $</span><span style="text-align:right">Usos</span><span style="text-align:right">$ / uso</span><span></span>
+        </div>
+        <div id="ins-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICIOS -->
+  <div class="page" id="page-servicios">
+    <div id="svc-list"></div>
+  </div>
+
+  <!-- SUELDO -->
+  <div class="page" id="page-sueldo">
+    <div class="card">
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Sueldo pretendido $</label>
+            <input class="form-input" id="s-sueldo" type="number" inputmode="numeric" value="100000" oninput="calcSueldo()">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Horas x mes</label>
+            <input class="form-input" id="s-horas" type="number" inputmode="numeric" value="30" oninput="calcSueldo()">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="big-card">
+      <div class="big-val" id="s-xhora">$3.333</div>
+      <div class="big-lbl">Costo por hora trabajada</div>
+      <div class="big-note">Es lo mínimo que tenés que ganar por cada hora de trabajo para llegar a tu sueldo</div>
+    </div>
+    <div class="metrics" id="s-metrics"></div>
+
+    <div class="slbl">Preparacion general</div>
+    <div class="prep-display" id="prep-display"></div>
+    <button class="btn-prep-edit" onclick="openPrepModal()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"/></svg>
+      Editar preparacion general
+    </button>
+
+    <div class="slbl" style="margin-top:20px">Servicios necesarios para llegar al objetivo</div>
+    <div class="card">
+      <div class="card-body" style="padding:10px 14px">
+        <div id="s-tabla"></div>
+        <p style="font-size:11px;color:var(--t3);margin-top:10px;line-height:1.5">Cuántos servicios necesitás hacer por mes para llegar a tu sueldo pretendido, tomando el precio de cada uno.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <strong>Hecho especialmente para vos, Cande</strong><br>
+    <span class="heart">♥</span> con todo el amor del mundo <span class="heart">♥</span><br>
+    <span style="font-size:11px;opacity:.7">— Aaron</span>
+  </div>
+
+</div>
+
+<button class="fab" id="fab" onclick="openFab()">+</button>
+
+<!-- MODAL INSUMO -->
+<div class="modal-bg" id="modal-ins">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-title"><span id="ins-modal-title">Nuevo insumo</span><button class="modal-close" onclick="closeModal('modal-ins')">×</button></div>
+    <div class="form-group">
+      <label class="form-label">Nombre del producto</label>
+      <input class="form-input" id="ins-n" placeholder="Ej: Top Coat Matte" autocomplete="off" autocorrect="off">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Costo $</label>
+        <input class="form-input" id="ins-c" type="number" inputmode="decimal" placeholder="3000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Rendimiento (usos)</label>
+        <input class="form-input" id="ins-r" type="number" inputmode="numeric" placeholder="40">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveIns()">Guardar</button>
+  </div>
+</div>
+
+<!-- MODAL SERVICIO -->
+<div class="modal-bg" id="modal-svc">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-title"><span id="svc-modal-title">Nuevo servicio</span><button class="modal-close" onclick="closeModal('modal-svc')">×</button></div>
+    <div class="form-group">
+      <label class="form-label">Nombre del servicio</label>
+      <input class="form-input" id="svc-n" placeholder="Ej: Kapping Rubber" autocomplete="off">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Tiempo (horas)</label>
+        <input class="form-input" id="svc-t" type="number" inputmode="decimal" step="0.5" placeholder="1.5" oninput="updateSvcPreview()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Precio de venta $ <span style="font-weight:400;color:var(--t3)">(opcional)</span></label>
+        <input class="form-input" id="svc-precio" type="number" inputmode="numeric" placeholder="Usar precio sugerido" oninput="updateSvcPreview()">
+      </div>
+    </div>
+    <div id="svc-preview" style="background:var(--rose-ll);border:1px solid var(--rose-l);border-radius:var(--rs);padding:10px 14px;margin-bottom:12px;font-size:13px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;text-align:center">
+      <div><div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Costo</div><div id="prev-costo" style="font-weight:700;color:var(--t2)">—</div></div>
+      <div><div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Ganancia</div><div id="prev-gan" style="font-weight:700;color:var(--green)">—</div></div>
+      <div><div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Precio final</div><div id="prev-precio" style="font-weight:800;color:var(--rose-d)">—</div></div>
+    </div>
+    <div id="svc-precio-warn" style="display:none;background:#FDF5F5;border:1px solid #EECFCF;border-radius:var(--rs);padding:8px 12px;margin-bottom:10px;font-size:12px;color:#C04444;font-weight:500"></div>
+    <div class="check-row">
+      <input type="checkbox" id="svc-prep" checked onchange="updateSvcPreview()">
+      <label class="check-label" for="svc-prep">Incluir preparacion general<small>Suma barbijo, guantes y otros insumos base</small></label>
+    </div>
+    <div class="divider"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <span class="form-label" style="margin:0">Insumos de la receta</span>
+      <button class="btn-sm" onclick="openIngPicker()">+ Añadir insumo</button>
+    </div>
+    <div id="svc-ings-edit"></div>
+    <div style="height:14px"></div>
+    <button class="btn btn-primary" onclick="saveSvc()">Guardar servicio</button>
+  </div>
+</div>
+
+<!-- MODAL PICKER -->
+<div class="modal-bg" id="modal-pick">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-title">Seleccionar insumo<button class="modal-close" onclick="closeModal('modal-pick')">×</button></div>
+    <div class="search-wrap" style="margin-bottom:8px">
+      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="pick-search" placeholder="Buscar..." oninput="renderPickList()" autocomplete="off">
+    </div>
+    <div class="ins-pick-list" id="pick-list"></div>
+    <div style="height:10px"></div>
+    <div class="form-group">
+      <label class="form-label">Cantidad de usos</label>
+      <input class="form-input" id="pick-qty" type="number" inputmode="numeric" value="1" min="1">
+    </div>
+    <button class="btn btn-primary" onclick="confirmPick()">Confirmar</button>
+  </div>
+</div>
+
+<!-- MODAL PREP -->
+<div class="modal-bg" id="modal-prep">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-title">Preparacion general<button class="modal-close" onclick="closeModal('modal-prep')">×</button></div>
+    <p style="font-size:13px;color:var(--t3);margin-bottom:12px">Insumos base aplicados a cada servicio que tenga activado el checkbox.</p>
+    <div id="prep-edit-list"></div>
+    <div class="divider"></div>
+    <div class="search-wrap" style="margin-bottom:6px">
+      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="prep-search" placeholder="Agregar insumo..." oninput="renderPrepPickList()" autocomplete="off">
+    </div>
+    <div class="ins-pick-list" id="prep-pick-list" style="max-height:35dvh"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+
+/* ── DATA ─────────────────────────────────────────── */
+const KI='dn3_ins',KS='dn3_svc',KP='dn3_prep',KSU='dn3_sue';
+
+const DI=[
+  {id:1,n:"Ablandador de cuticulas",c:1200,r:30},{id:2,n:"Aceite de cuticulas",c:2500,r:60},
+  {id:3,n:"Acrilico",c:3000,r:14},{id:4,n:"Alcohol",c:2700,r:50},{id:5,n:"Algodon",c:2500,r:60},
+  {id:6,n:"Barbijo",c:100,r:5},{id:7,n:"Base Coat",c:3000,r:30},{id:8,n:"Broches de Remocion",c:3500,r:100},
+  {id:9,n:"Buffer",c:300,r:2},{id:10,n:"Corta Cuticulas",c:5000,r:300},{id:11,n:"Corta Unas",c:500,r:200},
+  {id:12,n:"Esmalte Ojo de Gato",c:4000,r:50},{id:13,n:"Esmalte Charm Limit",c:1500,r:50},
+  {id:14,n:"Esmaltes Navi",c:4000,r:50},{id:15,n:"Fresas",c:1500,r:60},
+  {id:16,n:"Gel de construccion",c:3000,r:20},{id:17,n:"Gel solido",c:1500,r:30},
+  {id:18,n:"Lampara Mano",c:9000,r:200},{id:19,n:"Lampara Flor",c:15000,r:150},{id:20,n:"Lampara",c:45000,r:300},
+  {id:21,n:"Lima",c:500,r:4},{id:22,n:"Lima Buffer",c:800,r:5},{id:23,n:"Nivelador Navi",c:3000,r:40},
+  {id:24,n:"Palitos cuticulas",c:100,r:20},{id:25,n:"Papel film",c:1500,r:2},
+  {id:26,n:"Wipes",c:700,r:12},{id:27,n:"Par de guantes",c:400,r:3},{id:28,n:"Perfume ambiente",c:4000,r:40},
+  {id:29,n:"PH Balancing",c:3000,r:30},{id:30,n:"Pinceles",c:2500,r:100},{id:31,n:"Stickers",c:800,r:30},
+  {id:32,n:"Polygel Eloise",c:3000,r:10},{id:33,n:"Polygel Navi",c:6000,r:20},{id:34,n:"Removedor",c:13000,r:50},
+  {id:35,n:"Rubber Charm Limit",c:2000,r:15},{id:36,n:"Strass",c:3500,r:40},
+  {id:37,n:"Tips Dual Sistem",c:4000,r:80},{id:38,n:"Tips softgel",c:800,r:2},
+  {id:39,n:"Top Cristal",c:4000,r:40},{id:40,n:"Top Mate",c:2500,r:40},
+  {id:41,n:"Torno",c:11000,r:300},{id:42,n:"UltraBond",c:3000,r:40},{id:43,n:"Adhere",c:1800,r:40}
+];
+
+/* precio = precio de venta, ganancia se calcula */
+const DS=[
+  {id:1,n:"Esmaltado Semi",t:1.5,ings:[{id:7,q:1},{id:14,q:1},{id:39,q:1},{id:2,q:1},{id:1,q:1},{id:26,q:1},{id:27,q:1}],precio:7877,prep:true},
+  {id:2,n:"Kapping (Rubber)",t:1.5,ings:[{id:35,q:1},{id:7,q:1},{id:39,q:1},{id:2,q:1},{id:1,q:1},{id:26,q:1},{id:27,q:1}],precio:7637,prep:true},
+  {id:3,n:"Kapping (Gel)",t:1.5,ings:[{id:17,q:1},{id:7,q:1},{id:39,q:1},{id:2,q:1},{id:1,q:1},{id:26,q:1},{id:27,q:1}],precio:7653,prep:true},
+  {id:4,n:"Kapping (Polygel)",t:2,ings:[{id:33,q:1},{id:7,q:1},{id:39,q:1},{id:2,q:1},{id:1,q:1},{id:26,q:1},{id:27,q:1}],precio:9470,prep:true},
+  {id:5,n:"Soft Gel",t:2,ings:[{id:16,q:1},{id:37,q:1},{id:7,q:1},{id:39,q:1},{id:2,q:1},{id:26,q:1},{id:27,q:1}],precio:9603,prep:true},
+  {id:6,n:"Hibridas",t:2.5,ings:[{id:16,q:1},{id:14,q:1},{id:7,q:1},{id:39,q:1},{id:2,q:1},{id:26,q:1},{id:27,q:1}],precio:11437,prep:true},
+  {id:7,n:"Remocion de Producto",t:1,ings:[{id:34,q:1},{id:8,q:1},{id:25,q:1},{id:26,q:1},{id:27,q:1}],precio:3890,prep:false},
+  {id:8,n:"Pies Semipermanente",t:1,ings:[{id:14,q:1},{id:7,q:1},{id:39,q:1},{id:2,q:1},{id:1,q:1},{id:26,q:1},{id:27,q:1}],precio:5837,prep:true},
+  {id:9,n:"Retoque",t:2,ings:[{id:7,q:1},{id:39,q:1},{id:17,q:1},{id:2,q:1},{id:26,q:1},{id:27,q:1}],precio:9138,prep:true}
+];
+const DP=[{id:6,q:1},{id:27,q:1},{id:10,q:1},{id:11,q:1},{id:29,q:1},{id:42,q:1}];
+const DSU={s:100000,h:30};
+
+let ins=JSON.parse(localStorage.getItem(KI)||'null')||DI;
+let svcs=JSON.parse(localStorage.getItem(KS)||'null')||DS;
+let prep=JSON.parse(localStorage.getItem(KP)||'null')||DP;
+let sue=JSON.parse(localStorage.getItem(KSU)||'null')||DSU;
+let nextI=Math.max(0,...ins.map(i=>i.id))+1;
+let nextS=Math.max(0,...svcs.map(s=>s.id))+1;
+let editInsId=null,editSvcId=null,editSvcIngs=[],pickedInsId=null,pickMode='svc';
+let curTab='insumos';
+
+function save(){
+  localStorage.setItem(KI,JSON.stringify(ins));
+  localStorage.setItem(KS,JSON.stringify(svcs));
+  localStorage.setItem(KP,JSON.stringify(prep));
+  localStorage.setItem(KSU,JSON.stringify(sue));
+}
+function getI(id){return ins.find(i=>i.id===id)}
+function cxu(i){return i.c/i.r}
+function fmt(n){return '$'+Math.round(n).toLocaleString('es-AR')}
+function fmtD(n){return '$'+(Math.round(n*10)/10).toLocaleString('es-AR')}
+function xh(){return sue.s/sue.h}
+function prepCosto(){return prep.reduce((s,p)=>{const i=getI(p.id);return s+(i?cxu(i)*p.q:0)},0)}
+function costoInsumosSvc(svc){
+  let c=svc.ings.reduce((s,ing)=>{const i=getI(ing.id);return s+(i?cxu(i)*ing.q:0)},0);
+  if(svc.prep) c+=prepCosto();
+  return c;
+}
+function precioSugeridoSvc(svc){
+  return costoInsumosSvc(svc) + xh()*svc.t;
+}
+function precioFinalSvc(svc){
+  // if custom precio set and >= sugerido, use it; otherwise use sugerido
+  if(svc.precio && svc.precio >= precioSugeridoSvc(svc)) return svc.precio;
+  return precioSugeridoSvc(svc);
+}
+function gananciaSvc(svc){
+  return precioFinalSvc(svc) - costoInsumosSvc(svc);
+}
+
+function showTab(tab){
+  curTab=tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('t-'+tab).classList.add('active');
+  document.getElementById('page-'+tab).classList.add('active');
+  document.getElementById('fab').style.display=tab==='sueldo'?'none':'';
+  if(tab==='sueldo') renderSueldo();
+}
+
+let toastT;
+function toast(msg){
+  const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2200);
+}
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}
+document.querySelectorAll('.modal-bg').forEach(bg=>bg.addEventListener('click',e=>{if(e.target===bg)closeModal(bg.id)}));
+
+function openFab(){
+  if(curTab==='insumos'){
+    editInsId=null;
+    document.getElementById('ins-modal-title').textContent='Nuevo insumo';
+    ['ins-n','ins-c','ins-r'].forEach(id=>document.getElementById(id).value='');
+    openModal('modal-ins');
+  } else {
+    editSvcId=null;editSvcIngs=[];
+    document.getElementById('svc-modal-title').textContent='Nuevo servicio';
+    ['svc-n','svc-t','svc-precio'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('svc-prep').checked=true;
+    document.getElementById('svc-precio-warn').style.display='none';
+    renderSvcIngsEdit();
+    setTimeout(updateSvcPreview,50);
+    openModal('modal-svc');
+  }
+}
+
+/* ── INSUMOS ─────────────────────────────────────── */
+function renderIns(){
+  const q=(document.getElementById('ins-search').value||'').toLowerCase();
+  const fl=[...ins].sort((a,b)=>a.n.localeCompare(b.n,'es')).filter(i=>!q||i.n.toLowerCase().includes(q));
+  const tot=ins.reduce((s,i)=>s+i.c,0);
+  const avg=ins.length?ins.reduce((s,i)=>s+cxu(i),0)/ins.length:0;
+  document.getElementById('ins-metrics').innerHTML=`
+    <div class="metric"><div class="metric-val">${ins.length}</div><div class="metric-lbl">Insumos cargados</div><div class="metric-note">productos con precio y rendimiento</div></div>
+    <div class="metric"><div class="metric-val sm">${fmt(tot)}</div><div class="metric-lbl">Stock valorizado</div><div class="metric-note">lo que ya tenés comprado hoy</div></div>
+    <div class="metric"><div class="metric-val sm">${fmt(avg)}</div><div class="metric-lbl">$ por uso prom.</div><div class="metric-note">cuánto cuesta usar un producto una vez</div></div>`;
+  // small note below metrics
+  let note=document.getElementById('ins-note');
+  if(!note){
+    note=document.createElement('p');note.id='ins-note';
+    note.style.cssText='font-size:11px;color:var(--t3);margin-bottom:12px;line-height:1.5;';
+    note.textContent='Es el valor de lo que ya tenes comprado, no un gasto — es tu stock actual valorizado.';
+    document.getElementById('ins-metrics').after(note);
+  }
+  document.getElementById('ins-list').innerHTML=fl.map(i=>`
+    <div class="ins-row">
+      <span class="ins-name">${i.n}</span>
+      <input class="ins-input" type="number" inputmode="decimal" value="${i.c}" onchange="updI(${i.id},'c',this.value)" onfocus="this.select()">
+      <input class="ins-input" type="number" inputmode="numeric" value="${i.r}" onchange="updI(${i.id},'r',this.value)" onfocus="this.select()">
+      <span class="cxu">${fmtD(cxu(i))}</span>
+      <div style="display:flex;gap:3px">
+        <button class="btn-icon edit" onclick="editIns(${i.id})"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"/></svg></button>
+        <button class="btn-icon del" onclick="delIns(${i.id})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+      </div>
+    </div>`).join('')||'<div style="padding:16px 0;text-align:center;color:var(--t3);font-size:13px">Sin resultados</div>';
+}
+
+function updI(id,f,v){
+  const i=ins.find(x=>x.id===id);if(!i)return;
+  i[f]=parseFloat(v)||0;if(i.r<1)i.r=1;
+  save();renderIns();renderSvcs();
+}
+
+function editIns(id){
+  const i=getI(id);if(!i)return;
+  editInsId=id;
+  document.getElementById('ins-modal-title').textContent='Editar insumo';
+  document.getElementById('ins-n').value=i.n;
+  document.getElementById('ins-c').value=i.c;
+  document.getElementById('ins-r').value=i.r;
+  openModal('modal-ins');
+}
+
+function delIns(id){
+  if(!confirm('Eliminar este insumo?')) return;
+  ins=ins.filter(i=>i.id!==id);
+  prep=prep.filter(p=>p.id!==id);
+  svcs.forEach(s=>s.ings=s.ings.filter(ing=>ing.id!==id));
+  save();renderIns();renderSvcs();
+  toast('Insumo eliminado');
+}
+
+function saveIns(){
+  const n=document.getElementById('ins-n').value.trim();
+  const c=parseFloat(document.getElementById('ins-c').value)||0;
+  const r=parseFloat(document.getElementById('ins-r').value)||1;
+  if(!n){toast('Ingresa el nombre');return;}
+  if(editInsId!==null){
+    const i=ins.find(x=>x.id===editInsId);if(i){i.n=n;i.c=c;i.r=r;}
+  } else {ins.push({id:nextI++,n,c,r});}
+  save();renderIns();renderSvcs();
+  closeModal('modal-ins');
+  toast(editInsId!==null?'Insumo actualizado':'Insumo agregado');
+  editInsId=null;
+}
+
+/* ── SERVICIOS ───────────────────────────────────── */
+function renderSvcs(){
+  const el=document.getElementById('svc-list');
+  if(!svcs.length){el.innerHTML='<div class="empty">Toca + para agregar un servicio</div>';return;}
+  el.innerHTML=svcs.map(svc=>{
+    const costo=costoInsumosSvc(svc);
+    const sugerido=precioSugeridoSvc(svc);
+    const precio=precioFinalSvc(svc);
+    const ganancia=gananciaSvc(svc);
+    const tieneCustom=svc.precio && svc.precio > sugerido;
+    const ganOk=ganancia>=0;
+    const prepRows=svc.prep?prep.map(p=>{
+      const i=getI(p.id);if(!i)return'';
+      return`<div class="svc-ing-row prep-row"><span style="display:flex;align-items:center;gap:5px"><span style="width:5px;height:5px;border-radius:50%;background:var(--rose);display:inline-block;flex-shrink:0"></span>${i.n}${p.q>1?' x'+p.q:''}</span><span>${fmtD(cxu(i)*p.q)}</span></div>`;}).join(''):'';
+    const ingRows=svc.ings.map(ing=>{const i=getI(ing.id);if(!i)return'';
+      return`<div class="svc-ing-row"><span style="color:var(--t2)">${i.n}${ing.q>1?' x'+ing.q:''}</span><span style="font-weight:600">${fmtD(cxu(i)*ing.q)}</span></div>`;}).join('');
+    return`<div class="svc-card">
+      <div class="svc-top">
+        <div>
+          <div class="svc-name">${svc.n}</div>
+          <div class="svc-meta">${svc.t}h${svc.prep?' · prep. incluida':''}</div>
+        </div>
+        <div class="svc-actions">
+          <button class="btn-icon edit" onclick="editSvc(${svc.id})"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"/></svg></button>
+          <button class="btn-icon del" onclick="delSvc(${svc.id})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+        </div>
+      </div>
+      <div class="svc-ings">${prepRows}${ingRows||(!svc.prep?'<div style="font-size:12px;color:var(--t3);padding:8px 0">Sin insumos adicionales</div>':'')}</div>
+      <div class="svc-prices">
+        <div class="svc-price-box"><div class="svc-price-val" style="color:var(--t2)">${fmt(costo)}</div><div class="svc-price-lbl">Costo insumos</div></div>
+        <div class="svc-price-box"><div class="svc-price-val" style="color:${ganOk?'var(--green)':'#C04444'}">${fmt(ganancia)}</div><div class="svc-price-lbl">Ganancia${tieneCustom?' +extra':''}</div></div>
+        <div class="svc-price-box final"><div class="svc-price-val">${fmt(precio)}</div><div class="svc-price-lbl">Precio${tieneCustom?' ✦':' sugerido'}</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function editSvc(id){
+  const svc=svcs.find(s=>s.id===id);if(!svc)return;
+  editSvcId=id;editSvcIngs=svc.ings.map(i=>({...i}));
+  document.getElementById('svc-modal-title').textContent='Editar servicio';
+  document.getElementById('svc-n').value=svc.n;
+  document.getElementById('svc-t').value=svc.t;
+  document.getElementById('svc-precio').value=svc.precio||'';
+  document.getElementById('svc-prep').checked=!!svc.prep;
+  renderSvcIngsEdit();
+  setTimeout(updateSvcPreview,50);
+  openModal('modal-svc');
+}
+
+function delSvc(id){
+  if(!confirm('Eliminar este servicio?')) return;
+  svcs=svcs.filter(s=>s.id!==id);save();renderSvcs();toast('Servicio eliminado');
+}
+
+function renderSvcIngsEdit(){
+  const el=document.getElementById('svc-ings-edit');
+  if(!editSvcIngs.length){el.innerHTML='<div style="font-size:13px;color:var(--t3);padding:6px 0">Sin insumos adicionales</div>';return;}
+  el.innerHTML=`<div class="ing-added">${editSvcIngs.map((ing,idx)=>{
+    const i=getI(ing.id);if(!i)return'';
+    return`<div class="ing-added-row">
+      <span class="ing-added-name">${i.n}</span>
+      <span class="ing-added-meta">${fmtD(cxu(i)*ing.q)}</span>
+      <input class="ing-qty-input" type="number" inputmode="numeric" value="${ing.q}" min="1" onchange="updTmpIng(${idx},this.value)">
+      <button class="btn-icon del" style="width:28px;height:28px" onclick="remTmpIng(${idx})"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>`;}).join('')}</div>`;
+}
+
+function updTmpIng(idx,v){editSvcIngs[idx].q=parseInt(v)||1;renderSvcIngsEdit();}
+function remTmpIng(idx){editSvcIngs.splice(idx,1);renderSvcIngsEdit();}
+
+function openIngPicker(){
+  pickedInsId=null;
+  document.getElementById('pick-search').value='';
+  document.getElementById('pick-qty').value='1';
+  renderPickList();
+  openModal('modal-pick');
+}
+
+function renderPickList(){
+  const q=(document.getElementById('pick-search').value||'').toLowerCase();
+  const already=new Set(editSvcIngs.map(i=>i.id));
+  const fl=[...ins].sort((a,b)=>a.n.localeCompare(b.n,'es')).filter(i=>!q||i.n.toLowerCase().includes(q));
+  document.getElementById('pick-list').innerHTML=fl.map(i=>`
+    <div class="ins-pick-row${pickedInsId===i.id?' selected':''}" id="prow-${i.id}" onclick="selectPick(${i.id})">
+      <div><div class="ins-pick-name">${i.n}</div><div class="ins-pick-cost">${fmtD(cxu(i))} por uso</div></div>
+      <div class="pick-dot${already.has(i.id)||pickedInsId===i.id?' on':''}" id="pdot-${i.id}"></div>
+    </div>`).join('')||'<div style="padding:12px;text-align:center;font-size:13px;color:var(--t3)">Sin resultados</div>';
+}
+
+function selectPick(id){
+  pickedInsId=id;
+  document.querySelectorAll('.pick-dot').forEach(d=>d.classList.remove('on'));
+  document.querySelectorAll('.ins-pick-row').forEach(r=>r.classList.remove('selected'));
+  const dot=document.getElementById('pdot-'+id);if(dot)dot.classList.add('on');
+  const row=document.getElementById('prow-'+id);if(row)row.classList.add('selected');
+}
+
+function confirmPick(){
+  if(!pickedInsId){toast('Selecciona un insumo');return;}
+  const q=parseInt(document.getElementById('pick-qty').value)||1;
+  const ex=editSvcIngs.find(i=>i.id===pickedInsId);
+  if(ex) ex.q=q; else editSvcIngs.push({id:pickedInsId,q});
+  renderSvcIngsEdit();
+  pickedInsId=null;
+  closeModal('modal-pick');
+}
+
+function updateSvcPreview(){
+  const t=parseFloat(document.getElementById('svc-t').value)||0;
+  const usePrep=document.getElementById('svc-prep').checked;
+  const precioInput=parseFloat(document.getElementById('svc-precio').value)||0;
+  // build temp svc for calculation
+  const tmpSvc={t,ings:editSvcIngs,prep:usePrep,precio:0};
+  const costo=costoInsumosSvc(tmpSvc);
+  const sugerido=costo+xh()*t;
+  const precioFinal=precioInput>=sugerido?precioInput:sugerido;
+  const ganancia=precioFinal-costo;
+  document.getElementById('prev-costo').textContent=fmt(costo);
+  document.getElementById('prev-gan').textContent=fmt(ganancia);
+  document.getElementById('prev-precio').textContent=fmt(precioFinal);
+  const warn=document.getElementById('svc-precio-warn');
+  if(precioInput>0 && precioInput<sugerido){
+    warn.style.display='block';
+    warn.textContent='El precio no puede ser menor al sugerido ('+fmt(sugerido)+'). Se usara el precio sugerido.';
+  } else {
+    warn.style.display='none';
+  }
+}
+
+function saveSvc(){
+  const n=document.getElementById('svc-n').value.trim();
+  const t=parseFloat(document.getElementById('svc-t').value)||0;
+  const precioInput=parseFloat(document.getElementById('svc-precio').value)||0;
+  const usePrep=document.getElementById('svc-prep').checked;
+  if(!n){toast('Ingresa el nombre');return;}
+  // build temp to get sugerido
+  const tmpSvc={t,ings:editSvcIngs,prep:usePrep,precio:0};
+  const sugerido=precioSugeridoSvc(tmpSvc);
+  // only store custom precio if it's actually above sugerido
+  const precioFinal=(precioInput>=sugerido)?precioInput:0;
+  if(editSvcId!==null){
+    const svc=svcs.find(s=>s.id===editSvcId);
+    if(svc){svc.n=n;svc.t=t;svc.precio=precioFinal;svc.ings=[...editSvcIngs];svc.prep=usePrep;}
+  } else {
+    svcs.push({id:nextS++,n,t,ings:[...editSvcIngs],precio:precioFinal,prep:usePrep});
+  }
+  save();renderSvcs();
+  closeModal('modal-svc');
+  toast(editSvcId!==null?'Servicio actualizado':'Servicio guardado');
+  editSvcId=null;editSvcIngs=[];
+}
+
+/* ── PREP ─────────────────────────────────────────── */
+function openPrepModal(){
+  renderPrepEditList();renderPrepPickList();openModal('modal-prep');
+}
+
+function renderPrepDisplay(){
+  const el=document.getElementById('prep-display');
+  const c=prepCosto();
+  const tags=prep.map(p=>{const i=getI(p.id);if(!i)return'';
+    return`<span class="prep-tag">✦ ${i.n}${p.q>1?' x'+p.q:''} <strong>${fmtD(cxu(i)*p.q)}</strong></span>`;}).join('');
+  el.innerHTML=`<div class="prep-display-title"><span style="font-size:14px">✦</span> Preparacion general</div>
+    <div class="prep-ings">${tags||'<span style="font-size:12px;color:var(--t3)">Sin insumos configurados</span>'}</div>
+    <div class="prep-cost" style="margin-top:10px">Costo por servicio: <span>${fmt(c)}</span></div>
+    <div class="prep-note">Estos insumos se suman automaticamente a cada servicio que tenga activado el checkbox de preparacion</div>`;
+}
+
+function renderPrepEditList(){
+  const el=document.getElementById('prep-edit-list');
+  if(!prep.length){el.innerHTML='<div style="font-size:13px;color:var(--t3);margin-bottom:8px">Sin insumos configurados</div>';return;}
+  el.innerHTML=`<div class="ing-added" style="margin-bottom:10px">${prep.map((p,idx)=>{
+    const i=getI(p.id);if(!i)return'';
+    return`<div class="ing-added-row">
+      <span class="ing-added-name">${i.n}</span>
+      <span class="ing-added-meta">${fmtD(cxu(i)*p.q)}</span>
+      <input class="ing-qty-input" type="number" inputmode="numeric" value="${p.q}" min="1" onchange="updPrepQ(${idx},this.value)">
+      <button class="btn-icon del" style="width:28px;height:28px" onclick="remPrep(${idx})"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>`;}).join('')}</div>`;
+}
+
+function updPrepQ(idx,v){prep[idx].q=parseInt(v)||1;save();renderPrepDisplay();renderPrepEditList();renderSvcs();}
+function remPrep(idx){prep.splice(idx,1);save();renderPrepDisplay();renderPrepEditList();renderSvcs();}
+
+function renderPrepPickList(){
+  const q=(document.getElementById('prep-search').value||'').toLowerCase();
+  const already=new Set(prep.map(p=>p.id));
+  const fl=[...ins].sort((a,b)=>a.n.localeCompare(b.n,'es')).filter(i=>!q||i.n.toLowerCase().includes(q));
+  document.getElementById('prep-pick-list').innerHTML=fl.map(i=>`
+    <div class="ins-pick-row" onclick="addToPrep(${i.id})">
+      <div><div class="ins-pick-name">${i.n}</div><div class="ins-pick-cost">${fmtD(cxu(i))} por uso</div></div>
+      <div class="pick-dot${already.has(i.id)?' on':''}"></div>
+    </div>`).join('');
+}
+
+function addToPrep(id){
+  if(prep.find(p=>p.id===id)){toast('Ya esta en preparacion');return;}
+  prep.push({id,q:1});save();renderPrepDisplay();renderPrepEditList();renderPrepPickList();renderSvcs();
+  toast('Agregado a preparacion general');
+}
+
+/* ── SUELDO ──────────────────────────────────────── */
+function calcSueldo(){
+  sue.s=parseFloat(document.getElementById('s-sueldo').value)||0;
+  sue.h=parseFloat(document.getElementById('s-horas').value)||1;
+  save();
+  document.getElementById('s-xhora').textContent=fmt(xh());
+  document.getElementById('s-metrics').innerHTML=`
+    <div class="metric"><div class="metric-val sm">${fmt(sue.s/21)}</div><div class="metric-lbl">$ por día</div><div class="metric-note">sueldo ÷ 21 días hábiles</div></div>
+    <div class="metric"><div class="metric-val sm">${fmt(sue.s/4)}</div><div class="metric-lbl">$ por semana</div><div class="metric-note">sueldo ÷ 4 semanas</div></div>
+    <div class="metric"><div class="metric-val sm">${fmt(xh()*sue.h)}</div><div class="metric-lbl">Ingreso total</div><div class="metric-note">si cubrís todas las horas</div></div>`;
+  renderSueldoTabla();renderSvcs();
+}
+
+function renderSueldoTabla(){
+  const el=document.getElementById('s-tabla');
+  if(!svcs.length){el.innerHTML='<div style="color:var(--t3);font-size:13px;padding:8px 0">Sin servicios cargados</div>';return;}
+  el.innerHTML=svcs.map(svc=>{
+    const precio=precioFinalSvc(svc);
+    const cant=Math.ceil(sue.s/precio);
+    return`<div class="svc-need-row">
+      <span class="svc-need-name">${svc.n}</span>
+      <span class="svc-need-price">${fmt(precio)}</span>
+      <span class="svc-need-cant">${cant}/mes<span class="svc-need-sub">${(cant/21).toFixed(1)} por dia habil</span></span>
+    </div>`;
+  }).join('');
+}
+
+function renderSueldo(){
+  document.getElementById('s-sueldo').value=sue.s;
+  document.getElementById('s-horas').value=sue.h;
+  calcSueldo();renderPrepDisplay();renderPrepEditList();renderPrepPickList();
+}
+
+/* ── INIT ─────────────────────────────────────────── */
+renderIns();
+renderSvcs();
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
