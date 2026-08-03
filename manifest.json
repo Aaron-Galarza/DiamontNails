@@ -2,8 +2,7 @@
   "name": "Diamont Nails",
   "short_name": "Diamont",
   "description": "Calculadora de costos para Diamont Nails",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "/DiamontNails/index.html",
   "display": "standalone",
   "background_color": "#FDF5F9",
   "theme_color": "#E91E8C",
@@ -21,5 +20,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "scope": "/DiamontNails/"
 }
