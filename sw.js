@@ -1,5 +1,5 @@
 const CACHE = 'diamont-nails-v1';
-const FILES = ['./index.html', './manifest.json'];
+const FILES = ['/DiamontNails/index.html', '/DiamontNails/manifest.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil(
